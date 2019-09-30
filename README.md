@@ -1,2 +1,2 @@
 # Thorbe
-Proyecctos con Payeret
+Proyectos con Payeret
