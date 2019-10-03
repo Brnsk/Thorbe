@@ -1,12 +1,12 @@
 ## THORBE ##
 
-[### Stock.dat ###](./stock.dat)
+###[Stock.dat](./stock.dat)###
 
-*ApplianceName:* String (Samsung galaxy s8)
-*ApplianceType:* String (Smartphone)
-*Manufacturer:* String (Samsung)
-*UnityPrice:* double (500.63)
-*Quantity:* int (50)
+*ApplianceName:* String (Samsung galaxy s8) 
+*ApplianceType:* String (Smartphone) 
+*Manufacturer:* String (Samsung) 
+*UnityPrice:* double (500.63) 
+*Quantity:* int (50) 
 *LastDayRegistry:* Date (03/10/2019)   - Dia que se rellenó el stock por última vez -
 
 #### Steps ####
