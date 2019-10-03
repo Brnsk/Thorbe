@@ -2,3 +2,5 @@
 out/
 HomeAppliance.iml
 /bin/
+.project
+.classpath
