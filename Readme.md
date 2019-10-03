@@ -13,6 +13,6 @@
 
 1. Store data in [Stock.dat](./stock.dat). (CSV like)
 2. Be aware about the path of others stock.dat.
-3. Display data from stock.dat in a beatyfull way.
+3. Display data from [stock.dat](./stock.dat) in a beatyfull way.
 4. Create bills for the clients. (research about PDF format)
 5. Alert when there is less than 5 products of any kind and restore it.
