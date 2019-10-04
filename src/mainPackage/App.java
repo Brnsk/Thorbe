@@ -1,6 +1,6 @@
-package package1;
+package mainPackage;
 
-public class test {
+public class App {
     public static void main(String[] args) {
         System.out.println("Hola");
     }
