@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class FileCalls {
@@ -38,33 +36,25 @@ public class FileCalls {
         }
     }
     public void updateRegistry(Product p){
-    	StringBuilder fichero = new StringBuilder();
-    	String linea="";
     	try {
+    	Writer wr = new FileWriter(file,true);
+    	String linea="";
 			Scanner sc = new Scanner(FileCalls.file);
 			while( sc.hasNextLine()) {
 				linea = sc.nextLine();
-				if (linea.contains(p.getName())) {
+				if (linea.split(",")[0].equals(p.getName())) {
 					
 				}else {
-					fichero.append(linea+System.lineSeparator());		
+					wr.append(linea);		
 				}
 			}
-			fichero.append(p.getName()+
-				           ","+
-				           p.getType()+
-				           ","+
-				           p.getManufacturer()+
-				           ","+
-				           p.getPrice()+
-				           ","+
-				           p.getQuantity()+
-				          ","+
-				           p.getRegistryDay()+
-				            ";");
-			System.out.println(fichero);
+			wr.close();
+			insertRegistry(p);
 			sc.close();
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    	catch (IOException e) {
 			e.printStackTrace();
 		}
     }	
