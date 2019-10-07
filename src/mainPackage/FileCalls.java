@@ -1,10 +1,13 @@
 package mainPackage;
 
-
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class FileCalls {
     final static File file = new File("./stock.dat");
@@ -35,8 +38,36 @@ public class FileCalls {
         }
     }
     public void updateRegistry(Product p){
-
-    }
+    	StringBuilder fichero = new StringBuilder();
+    	String linea="";
+    	try {
+			Scanner sc = new Scanner(FileCalls.file);
+			while( sc.hasNextLine()) {
+				linea = sc.nextLine();
+				if (linea.contains(p.getName())) {
+					
+				}else {
+					fichero.append(linea+System.lineSeparator());		
+				}
+			}
+			fichero.append(p.getName()+
+				           ","+
+				           p.getType()+
+				           ","+
+				           p.getManufacturer()+
+				           ","+
+				           p.getPrice()+
+				           ","+
+				           p.getQuantity()+
+				          ","+
+				           p.getRegistryDay()+
+				            ";");
+			System.out.println(fichero);
+			sc.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+    }	
     public void deleteRegistry(Product p){
 
     }
