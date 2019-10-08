@@ -1,10 +1,10 @@
 package mainPackage;
 
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class FileCalls {
     final static File file = new File("./stock.dat");
@@ -37,8 +37,29 @@ public class FileCalls {
     public void updateRegistry(Product p){
 
     }
-    public void deleteRegistry(Product p){
+    public static void deleteRegistry(String name) {
+        try{
+            Scanner sc = new Scanner(file);
+            List<String> copy = new ArrayList<>();
 
+            while(sc.hasNext()){
+                copy.add(sc.nextLine());
+            }
+
+            Writer wr = new FileWriter(file);
+
+            for (String line : copy) {
+                if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
+                    wr.write(line + System.lineSeparator());
+                }
+            }
+
+            wr.close();
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
     public void listProducts(){
 
