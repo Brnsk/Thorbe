@@ -1,2 +1,4 @@
 [ApplianceName],[ApplianceType],[Manufacturer],[UnityPrice],[Quantity],[LastDayRegistry];
-Samsung Galaxy 8+,Smartphone,Samsung,400.26,10,Mon Oct 07 17:30:48 CEST 2019;
+coso1,null,null,0.0,0,null;
+coso2,null,null,0.0,0,null;
+Samsung Galaxy 8,Smartphone,Samsung,400.26,10,Thu Oct 10 17:07:02 CEST 2019;

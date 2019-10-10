@@ -1,7 +1,11 @@
 package mainPackage;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -34,14 +38,16 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    public void updateRegistry(Product p){
-
-    }
+    
+    public static void updateRegistry(Product p){
+    	deleteRegistry(p.getName());
+    	insertRegistry(p);
+    }	
+    
     public static void deleteRegistry(String name) {
         try{
             Scanner sc = new Scanner(FileCalls.file);
             List<String> copy = new ArrayList<String>();
-
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
