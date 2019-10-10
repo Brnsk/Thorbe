@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class FileCalls {
@@ -35,31 +38,34 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    public void updateRegistry(Product p){
-    	try {
-    	Writer wr = new FileWriter(file,true);
-    	String linea="";
-			Scanner sc = new Scanner(FileCalls.file);
-			while( sc.hasNextLine()) {
-				linea = sc.nextLine();
-				if (linea.split(",")[0].equals(p.getName())) {
-					
-				}else {
-					wr.append(linea);		
-				}
-			}
-			wr.close();
-			insertRegistry(p);
-			sc.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-    	catch (IOException e) {
-			e.printStackTrace();
-		}
+    
+    public static void updateRegistry(Product p){
+    	deleteRegistry(p.getName());
+    	insertRegistry(p);
     }	
-    public void deleteRegistry(Product p){
+    
+    public static void deleteRegistry(String name) {
+        try{
+            Scanner sc = new Scanner(file);
+            List<String> copy = new ArrayList<String>();
+            while(sc.hasNext()){
+                copy.add(sc.nextLine());
+            }
 
+            Writer wr = new FileWriter(file);
+
+            for (String line : copy) {
+                if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
+                    wr.write(line + System.lineSeparator());
+                }
+            }
+
+            wr.close();
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
     public void listProducts(){
 
