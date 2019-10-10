@@ -79,4 +79,29 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
+    public static void quantityRemaining() {
+    	try{
+            Scanner sc = new Scanner(FileCalls.file);
+            List<String> copy = new ArrayList<String>();
+            while(sc.hasNext()){
+                copy.add(sc.nextLine());
+            }
+            for (String line : copy) {
+            	System.out.println(line.split(",")[4]);
+                if(Integer.parseInt(line.split(",")[4]) <= 5 ){
+                	StringBuilder elCaprichoDeBruno = new StringBuilder();
+                	elCaprichoDeBruno.append("The product "+line.split(",")[0]+ " is running out of stock. Only "+line.split(",")[4]+" left.");
+                	elCaprichoDeBruno.append(line.split(",")[0]);
+                	elCaprichoDeBruno.append(" is running out of stock. Only ");
+                	elCaprichoDeBruno.append(line.split(",")[4]);
+                	elCaprichoDeBruno.append(" left");
+                	
+                    System.out.println(elCaprichoDeBruno);
+                }
+            }
+
+        }catch (FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+    }
 }
