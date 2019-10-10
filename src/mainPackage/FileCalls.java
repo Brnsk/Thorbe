@@ -15,7 +15,7 @@ public class FileCalls {
 
     public static void insertRegistry(Product p){
         try{
-            Writer wr = new FileWriter(file,true);
+            Writer wr = new FileWriter(FileCalls.file,true);
             StringBuilder line = new StringBuilder();
 
             line.append(System.lineSeparator());
@@ -46,13 +46,13 @@ public class FileCalls {
     
     public static void deleteRegistry(String name) {
         try{
-            Scanner sc = new Scanner(file);
+            Scanner sc = new Scanner(FileCalls.file);
             List<String> copy = new ArrayList<String>();
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
 
-            Writer wr = new FileWriter(file);
+            Writer wr = new FileWriter(FileCalls.file);
 
             for (String line : copy) {
                 if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
@@ -67,7 +67,16 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    public void listProducts(){
+    public static void listProducts(){
+        try{
+            Scanner sc = new Scanner(FileCalls.file);
+            sc.nextLine();
 
+            while(sc.hasNext()){
+                System.out.println(sc.nextLine());
+            }
+        }catch(FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
