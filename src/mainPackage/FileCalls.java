@@ -40,7 +40,7 @@ public class FileCalls {
     public static void deleteRegistry(String name) {
         try{
             Scanner sc = new Scanner(file);
-            List<String> copy = new ArrayList<>();
+            List<String> copy = new ArrayList<String>();
 
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
