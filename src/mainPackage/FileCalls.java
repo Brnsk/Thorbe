@@ -82,21 +82,37 @@ public class FileCalls {
     public static void quantityRemaining() {
     	try{
             Scanner sc = new Scanner(FileCalls.file);
+            Scanner user = new Scanner(System.in);
+            int comprar = 0;
             List<String> copy = new ArrayList<String>();
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
             copy.remove(0);
             for (String line : copy) {
-                if(Integer.parseInt(line.split(",")[4]) <= 5 ){
-                	StringBuilder elCaprichoDeBruno = new StringBuilder();
-                	elCaprichoDeBruno.append("The product ");
-                	elCaprichoDeBruno.append(line.split(",")[0]);
-                	elCaprichoDeBruno.append(" is running out of stock. Only ");
-                	elCaprichoDeBruno.append(line.split(",")[4]);
-                	elCaprichoDeBruno.append(" left.");
+                if(Integer.parseInt(line.split(",")[4]) <= 5 && Integer.parseInt(line.split(",")[4]) > 0){
+                	StringBuilder aviso = new StringBuilder();
+                	aviso.append("The product ");
+                	aviso.append(line.split(",")[0]);
+                	aviso.append(" is running out of stock. Only ");
+                	aviso.append(line.split(",")[4]);
+                	aviso.append(" left.");
                 	
-                    System.out.println(elCaprichoDeBruno);
+                    System.out.println(aviso);
+                }else if(Integer.parseInt(line.split(",")[4]) <= 0) {
+                	StringBuilder aviso = new StringBuilder();
+                	aviso.append("There is no more ");
+                	aviso.append(line.split(",")[0]);
+                	aviso.append(" left.");
+                	aviso.append(System.lineSeparator());
+                	System.out.println(aviso);
+                	do {
+                		System.out.println("Do you want to buy more? (1 = S o 2 = N) ");
+                		comprar = user.nextInt();
+                	}while(comprar != 1 || comprar != 2);
+                	if (comprar == 1) {
+                		System.out.println("buying more"+line.split(",")[0]);
+                	}
                 }
             }
 
