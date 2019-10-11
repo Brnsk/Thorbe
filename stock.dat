@@ -1,5 +1,7 @@
 [ApplianceName],[ApplianceType],[Manufacturer],[UnityPrice],[Quantity],[LastDayRegistry];
-coso1,null,null,0.0,0,null;
-coso2,null,null,0.0,0,null;
+coso1,null,null,0.0,5,null;
+coso2,null,null,0.0,5,null;
+
+
 
 

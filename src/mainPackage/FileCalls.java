@@ -86,15 +86,15 @@ public class FileCalls {
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
+            copy.remove(0);
             for (String line : copy) {
-            	System.out.println(line.split(",")[4]);
                 if(Integer.parseInt(line.split(",")[4]) <= 5 ){
                 	StringBuilder elCaprichoDeBruno = new StringBuilder();
-                	elCaprichoDeBruno.append("The product "+line.split(",")[0]+ " is running out of stock. Only "+line.split(",")[4]+" left.");
+                	elCaprichoDeBruno.append("The product ");
                 	elCaprichoDeBruno.append(line.split(",")[0]);
                 	elCaprichoDeBruno.append(" is running out of stock. Only ");
                 	elCaprichoDeBruno.append(line.split(",")[4]);
-                	elCaprichoDeBruno.append(" left");
+                	elCaprichoDeBruno.append(" left.");
                 	
                     System.out.println(elCaprichoDeBruno);
                 }
