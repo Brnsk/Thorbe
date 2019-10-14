@@ -83,7 +83,8 @@ public class FileCalls {
     	try{
             Scanner sc = new Scanner(FileCalls.file);
             Scanner user = new Scanner(System.in);
-            int comprar = 0;
+            boolean out = true;
+            
             List<String> copy = new ArrayList<String>();
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
@@ -97,6 +98,7 @@ public class FileCalls {
                 	aviso.append(" is running out of stock. Only ");
                 	aviso.append(line.split(",")[4]);
                 	aviso.append(" left.");
+                	out = true;
                 	
                     System.out.println(aviso);
                 }else if(Integer.parseInt(line.split(",")[4]) <= 0) {
@@ -106,14 +108,20 @@ public class FileCalls {
                 	aviso.append(" left.");
                 	aviso.append(System.lineSeparator());
                 	System.out.println(aviso);
+                	out = true;
+                }
+                if (out) {
+                	String comprar;
                 	do {
-                		System.out.println("Do you want to buy more? (1 = S o 2 = N) ");
-                		comprar = user.nextInt();
-                	}while(comprar != 1 || comprar != 2);
-                	if (comprar == 1) {
-                		System.out.println("buying more"+line.split(",")[0]);
+                		System.out.println("Do you want to buy more? (S o N) ");
+                		comprar = user.nextLine();
+                	}while(!comprar.toUpperCase().equals("S") && comprar.toUpperCase().contentEquals("N"));
+                	if (comprar.toUpperCase().equals("S")) {
+                		System.out.println("buying more "+line.split(",")[0]);
                 	}
                 }
+                out = false;
+            	sc.close();
             }
 
         }catch (FileNotFoundException e){
