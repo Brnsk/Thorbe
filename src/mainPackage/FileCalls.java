@@ -69,10 +69,14 @@ public class FileCalls {
     }
     public static void listProducts(){
         try{
+        	StringBuilder sb = new StringBuilder();
             Scanner sc = new Scanner(FileCalls.file);
             sc.nextLine();
 
             while(sc.hasNext()){
+            	sb = new StringBuilder();
+            	sb.append("Producto: ");
+            	sb.append(sc.nextLine().split(",")[0]);
                 System.out.println(sc.nextLine());
             }
         }catch(FileNotFoundException e){
