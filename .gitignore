@@ -6,3 +6,5 @@ HomeAppliance.iml
 .classpath
 HomeAppliance_v2.iml
 .settings/
+stock.dat
+src/mainPackage/App.java
