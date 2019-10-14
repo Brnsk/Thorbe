@@ -1,5 +1,6 @@
 package mainPackage;
 
+
 import java.util.Date;
 
 public class App {
@@ -8,5 +9,6 @@ public class App {
 //        FileCalls.insertRegistry(p);
         FileCalls.deleteRegistry("Samsung Galaxy 8");
         FileCalls.listProducts();
+        FileCalls.quantityRemaining();
     }
 }
