@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class FileCalls {
     final static File file = new File("./stock.dat");
 
-    public static void insertRegistry(Product p){
+    protected static void insertRegistry(Product p){
         try{
             Writer wr = new FileWriter(FileCalls.file,true);
             StringBuilder line = new StringBuilder();
@@ -38,16 +38,17 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    
-    public static void updateRegistry(Product p){
+
+    protected static void updateRegistry(Product p){
     	deleteRegistry(p.getName());
     	insertRegistry(p);
-    }	
-    
-    public static void deleteRegistry(String name) {
+    }
+
+    protected static void deleteRegistry(String name) {
         try{
             Scanner sc = new Scanner(FileCalls.file);
             List<String> copy = new ArrayList<String>();
+
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
@@ -67,7 +68,8 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    public static void listProducts(){
+
+    protected static void listProducts(){
         try{
             Scanner sc = new Scanner(FileCalls.file);
             sc.nextLine();
@@ -78,5 +80,9 @@ public class FileCalls {
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
+    
+    protected static void buyProduct(String name, int quantity){
+
     }
 }
