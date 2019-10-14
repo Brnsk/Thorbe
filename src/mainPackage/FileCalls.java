@@ -48,16 +48,26 @@ public class FileCalls {
         try{
             Scanner sc = new Scanner(FileCalls.file);
             List<String> copy = new ArrayList<String>();
+            int len = 0;
+            String line = "";
 
             while(sc.hasNext()){
                 copy.add(sc.nextLine());
             }
 
+            len = copy.size()-2;
             Writer wr = new FileWriter(FileCalls.file);
 
-            for (String line : copy) {
-                if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
-                    wr.write(line + System.lineSeparator());
+            for (int i = 0; i < copy.size(); i++) {
+                line = copy.get(i);
+                if(i < len){
+                    if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
+                        wr.write(line + System.lineSeparator());
+                    }
+                }else{
+                    if(!line.split(",")[0].toUpperCase().equals(name.toUpperCase())){
+                        wr.write(line);
+                    }
                 }
             }
 
@@ -82,7 +92,7 @@ public class FileCalls {
         }
     }
 
-    public static void quantityRemaining() {
+    protected static void quantityRemaining() {
     	try{
             Scanner sc = new Scanner(FileCalls.file);
             Scanner user = new Scanner(System.in);
@@ -122,5 +132,9 @@ public class FileCalls {
         }catch (FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
+
+    protected static void buyProduct(){
+
     }
 }
