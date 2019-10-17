@@ -1,11 +1,14 @@
 package mainPackage;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -179,5 +182,36 @@ public class FileCalls {
         }catch (FileNotFoundException e){
             System.out.println(e.getMessage());
         }
+    }
+    public static void createBill (Product p, String clientName, int quantity ) {
+    	 try{
+    		 Date day = new Date();
+    		 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy'at'HH-mm'h-'");
+    		 
+    		 File f = new File("./bills/"+dateFormat.format(day)+clientName+".dat");
+
+             BufferedWriter wr = new BufferedWriter(new FileWriter(f));
+             StringBuilder line = new StringBuilder();
+
+             line.append("===========ThorbeElectrics===========");
+             line.append(System.lineSeparator());
+             line.append(System.lineSeparator());
+             line.append("      · Nombre: ");
+             line.append(clientName);
+             line.append(System.lineSeparator());
+             line.append("      · Producto: ");
+             line.append(p.getName());
+             line.append(System.lineSeparator());
+             line.append("      · Cantidad: ");
+             line.append(quantity);
+             line.append(System.lineSeparator());
+             line.append("      · Precio /u: ");
+             line.append(p.getPrice());
+
+             wr.append(line);
+             wr.close();
+         }catch(IOException e){
+             System.out.println(e.getMessage());
+         }
     }
 }
