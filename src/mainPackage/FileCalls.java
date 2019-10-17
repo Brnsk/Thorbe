@@ -71,13 +71,62 @@ public class FileCalls {
         try{
         	StringBuilder sb = new StringBuilder();
             Scanner sc = new Scanner(FileCalls.file);
+            List <String> product = new ArrayList<String>();
             sc.nextLine();
-
+            sb = new StringBuilder();
+            
             while(sc.hasNext()){
-            	sb = new StringBuilder();
-            	sb.append("Producto: ");
-            	sb.append(sc.nextLine().split(",")[0]);
-                System.out.println(sc.nextLine());
+            	product.clear();
+            	product.add(sc.nextLine());
+            	sb.append("Product: ");
+            	sb.append(product.get(0).split(",")[0]);
+            	sb.append(System.lineSeparator());
+            	sb.append("Unity Price: ");
+            	sb.append(product.get(0).split(",")[3]);
+            	sb.append(System.lineSeparator());
+            	sb.append("Unity Price: ");
+            	sb.append(product.get(0).split(",")[4]);
+            	sb.append(System.lineSeparator());
+            	sb.append("=================");
+            	sb.append(System.lineSeparator());
+            }
+            System.out.println(sb);
+        }catch(FileNotFoundException e){
+            System.out.println(e.getMessage());
+        }
+    }
+    public static void searchProduct(String p){
+        try{
+        	StringBuilder sb = new StringBuilder();
+            Scanner sc = new Scanner(FileCalls.file);
+            boolean encontrado = false;
+            List <String> product = new ArrayList<String>();
+            sc.nextLine();
+            sb = new StringBuilder();
+            
+            while(sc.hasNext()){
+            	product.clear();
+            	product.add(sc.nextLine());
+            	if(product.get(0).split(",")[0].equals(p)) {
+            		encontrado = true;
+            		sb.append("Product: ");
+                	sb.append(product.get(0).split(",")[0]);
+                	sb.append(System.lineSeparator());
+                	sb.append("Unity Price: ");
+                	sb.append(product.get(0).split(",")[3]);
+                	sb.append(System.lineSeparator());
+                	sb.append("Unity Price: ");
+                	sb.append(product.get(0).split(",")[4]);
+                	sb.append(System.lineSeparator());
+                	sb.append("=================");
+                	sb.append(System.lineSeparator());
+                	System.out.println(sb);
+            	}
+            }
+            if (!encontrado) {
+            	System.out.println("Sorry, product not found");
+            }else {
+            	encontrado = false;
             }
         }catch(FileNotFoundException e){
             System.out.println(e.getMessage());
