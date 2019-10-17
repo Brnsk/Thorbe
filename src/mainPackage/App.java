@@ -1,6 +1,5 @@
 package mainPackage;
 
-import java.util.Date;
 import java.util.Scanner;
 
 public class App {
@@ -48,5 +47,6 @@ public class App {
         while(!exit){
             exit = printMenu();
         }
+
     }
 }
