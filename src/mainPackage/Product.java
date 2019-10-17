@@ -1,6 +1,7 @@
 package mainPackage;
 
 import java.util.Date;
+import java.util.Scanner;
 
 public class Product {
     private String name;
@@ -74,5 +75,24 @@ public class Product {
 
     public void setRegistryDay(Date registryDay) {
         this.registryDay = registryDay;
+    }
+
+    public static void createProduct(){
+        Product p = new Product();
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Nom del producte:");
+        p.setName(sc.nextLine());
+        System.out.println("Tipus de producte:");
+        p.setType(sc.nextLine());
+        System.out.println("Fabricant:");
+        p.setManufacturer(sc.nextLine());
+        System.out.println("Preu unitari:");
+        p.setPrice(sc.nextDouble());
+        System.out.println("Quantitat:");
+        p.setQuantity(sc.nextInt());
+        p.setRegistryDay(new Date());
+
+        FileCalls.insertRegistry(p);
     }
 }

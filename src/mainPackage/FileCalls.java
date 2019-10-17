@@ -67,6 +67,7 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
+
     public static void listProducts(){
         try{
             Scanner sc = new Scanner(FileCalls.file);
