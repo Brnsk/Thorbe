@@ -183,7 +183,7 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
-    public static void createBill (Product p, String clientName, int quantity ) {
+    public static void createBill (List<Product> products, String clientName, List<Integer> quantity ) {
     	 try{
     		 Date day = new Date();
     		 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy'at'HH-mm'h-'");
@@ -192,6 +192,7 @@ public class FileCalls {
 
              BufferedWriter wr = new BufferedWriter(new FileWriter(f));
              StringBuilder line = new StringBuilder();
+             int i = 0;
 
              line.append("===========ThorbeElectrics===========");
              line.append(System.lineSeparator());
@@ -199,14 +200,17 @@ public class FileCalls {
              line.append("      · Nombre: ");
              line.append(clientName);
              line.append(System.lineSeparator());
-             line.append("      · Producto: ");
-             line.append(p.getName());
-             line.append(System.lineSeparator());
-             line.append("      · Cantidad: ");
-             line.append(quantity);
-             line.append(System.lineSeparator());
-             line.append("      · Precio /u: ");
-             line.append(p.getPrice());
+             for (Product p : products) {
+            	 line.append("      · Producto: ");
+            	 line.append(p.getName());
+            	 line.append(System.lineSeparator());
+            	 line.append("      · Cantidad: ");
+            	 line.append(quantity.get(i));
+            	 line.append(System.lineSeparator());
+            	 line.append("      · Precio /u: ");
+            	 line.append(p.getPrice());			
+            	 i += 1;
+			}
 
              wr.append(line);
              wr.close();
