@@ -102,7 +102,6 @@ public class FileCalls {
             boolean encontrado = false;
             List <String> product = new ArrayList<String>();
             sc.nextLine();
-            sb = new StringBuilder();
             
             while(sc.hasNext()){
             	product.clear();
