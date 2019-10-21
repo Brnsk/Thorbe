@@ -193,24 +193,41 @@ public class FileCalls {
              BufferedWriter wr = new BufferedWriter(new FileWriter(f));
              StringBuilder line = new StringBuilder();
              int i = 0;
+             double pfinal = 0;
 
              line.append("===========ThorbeElectrics===========");
              line.append(System.lineSeparator());
              line.append(System.lineSeparator());
-             line.append("      · Nombre: ");
+             line.append("  <<<<<CLIENTE>>>>>");
+             line.append(System.lineSeparator());
+             line.append("    · Nombre: ");
              line.append(clientName);
              line.append(System.lineSeparator());
+             line.append(System.lineSeparator());
+             line.append("  <<<<<PRODUCTOS>>>>>");
+             line.append(System.lineSeparator());
              for (Product p : products) {
-            	 line.append("      · Producto: ");
+            	 line.append("    · Producto: ");
             	 line.append(p.getName());
             	 line.append(System.lineSeparator());
-            	 line.append("      · Cantidad: ");
+            	 line.append("    · Cantidad: ");
             	 line.append(quantity.get(i));
             	 line.append(System.lineSeparator());
-            	 line.append("      · Precio /u: ");
+            	 line.append("    · Precio /u: ");
             	 line.append(p.getPrice());			
+            	 line.append(System.lineSeparator());
+            	 line.append("    · Total: ");
+            	 line.append(p.getPrice()* quantity.get(i));			
+            	 line.append(System.lineSeparator());
+            	 line.append("     ------------------");			
+            	 line.append(System.lineSeparator());
+            	 pfinal = pfinal + (p.getPrice()* quantity.get(i));
             	 i += 1;
 			}
+             line.append(System.lineSeparator());
+        	 line.append(">>>>>>>>PRECIO FINAL :");		
+        	 line.append(pfinal);	
+        	 line.append(System.lineSeparator());
 
              wr.append(line);
              wr.close();
