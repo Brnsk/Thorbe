@@ -4,12 +4,13 @@ import java.util.Scanner;
 
 public class App {
 
-    private static boolean printMenu(){
+    private static boolean printMenu() {
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
         int resposta = -1;
 
         do {
+            System.out.println("========= ThorbeEletrics =========");
             System.out.println("1. Registrar producte.");
             System.out.println("2. Listar tots els productes.");
             System.out.println("3. Comprar producte.");
@@ -17,25 +18,25 @@ public class App {
             System.out.println("5. Cercar producte.");
             System.out.println("0. Sortir.");
             resposta = sc.nextInt();
-        }while(resposta < 0 || resposta > 4);
+        } while (resposta < 0 || resposta > 5);
 
-        switch (resposta){
-            case 0: exit = true;
-            break;
-            case 1: Product.createProduct();
-            break;
-            case 2: FileCalls.listProducts();
-            break;
+        switch (resposta) {
+            case 0:
+                exit = true;
+                break;
+            case 1:
+                Product.createProduct();
+                break;
+            case 2:
+                FileCalls.listProducts();
+                break;
             case 3:
-                System.out.println("Quin producte vols comprar?");
-                String nom = sc.nextLine();
-                System.out.println("Quina quantitat?");
-                int preu = sc.nextInt();
-                ;
-            break;
+                Product.buyProduct();
+                break;
             case 4: ;
-            break;
-            case 5: ;
+                break;
+            case 5: FileCalls.searchProduct();
+                break;
         }
 
         return exit;
@@ -44,9 +45,8 @@ public class App {
     public static void main(String[] args) {
         boolean exit = false;
 
-        while(!exit){
+        while (!exit) {
             exit = printMenu();
         }
-
     }
 }
