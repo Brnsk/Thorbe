@@ -21,19 +21,15 @@ public class App {
         } while (resposta < 0 || resposta > 5);
 
         switch (resposta) {
-            case 0:
-                exit = true;
+            case 0: exit = true;
                 break;
-            case 1:
-                Product.createProduct();
+            case 1: Product.createProduct();
                 break;
-            case 2:
-                FileCalls.listProducts();
+            case 2: FileCalls.listProducts();
                 break;
-            case 3:
-                Product.buyProduct();
+            case 3: Product.buyProduct(false);
                 break;
-            case 4: ;
+            case 4: Product.buyProduct(true);
                 break;
             case 5: FileCalls.searchProduct();
                 break;

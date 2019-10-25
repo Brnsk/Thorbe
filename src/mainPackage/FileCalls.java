@@ -211,6 +211,7 @@ public class FileCalls {
             System.out.println(e.getMessage());
         }
     }
+
     public static void createBill (List<Product> products, String clientName, List<Integer> quantity ) {
     	 try{
     		 Date day = new Date();
@@ -228,23 +229,24 @@ public class FileCalls {
              line.append(System.lineSeparator());
              line.append("  <<<<<CLIENTE>>>>>");
              line.append(System.lineSeparator());
-             line.append("    · Nombre: ");
+             line.append("     Â· Nombre: ");
              line.append(clientName);
              line.append(System.lineSeparator());
              line.append(System.lineSeparator());
              line.append("  <<<<<PRODUCTOS>>>>>");
              line.append(System.lineSeparator());
+
              for (Product p : products) {
-            	 line.append("    · Producto: ");
+            	 line.append("    Â· Producto: ");
             	 line.append(p.getName());
             	 line.append(System.lineSeparator());
-            	 line.append("    · Cantidad: ");
+            	 line.append("    Â· Cantidad: ");
             	 line.append(quantity.get(i));
             	 line.append(System.lineSeparator());
-            	 line.append("    · Precio /u: ");
+            	 line.append("    Â· Precio /u: ");
             	 line.append(p.getPrice());			
             	 line.append(System.lineSeparator());
-            	 line.append("    · Total: ");
+            	 line.append("    Â· Total: ");
             	 line.append(p.getPrice()* quantity.get(i));			
             	 line.append(System.lineSeparator());
             	 line.append("     ------------------");			

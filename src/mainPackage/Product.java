@@ -101,7 +101,7 @@ public class Product {
         FileCalls.insertRegistry(p,true);
     }
 
-    public static void buyProduct() {
+    public static void buyProduct(boolean sell) {
         int quantity = 0;
         Product p = null;
 
@@ -111,7 +111,16 @@ public class Product {
             p = FileCalls.searchProduct();
         } while (p == null);
 
-        System.out.println("How many " + p.getName() + " do you want? There are actually " + p.getQuantity() + " in stock.");
+        if(sell){
+            System.out.println("How many " + p.getName() + " do you want to buy dear custemer?");
+            quantity = sc.nextInt();
+            p.setQuantity(p.getQuantity() - quantity);
+        }else{
+            System.out.println("How many " + p.getName() + " do you want? There are actually " + p.getQuantity() + " in stock.");
+            quantity = sc.nextInt();
+            p.setQuantity(p.getQuantity() + quantity);
+        }
+
         quantity = sc.nextInt();
 
         p.setQuantity(p.getQuantity() + quantity);
