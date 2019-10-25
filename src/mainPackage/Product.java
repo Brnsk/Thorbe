@@ -1,6 +1,8 @@
 package mainPackage;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Product {
     private String name;
@@ -8,9 +10,9 @@ public class Product {
     private String manufacturer;
     private double price;
     private int quantity;
-    private Date registryDay;
+    private String registryDay;
 
-    public Product(){
+    public Product() {
         this.name = null;
         this.type = null;
         this.manufacturer = null;
@@ -19,7 +21,7 @@ public class Product {
         this.registryDay = null;
     }
 
-    public Product(String name, String type, String manufacturer, double price, int quantity, Date registryDay) {
+    public Product(String name, String type, String manufacturer, double price, int quantity, String registryDay) {
         this.name = name;
         this.type = type;
         this.manufacturer = manufacturer;
@@ -68,11 +70,61 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public Date getRegistryDay() {
+    public String getRegistryDay() {
         return registryDay;
     }
 
-    public void setRegistryDay(Date registryDay) {
+    public void setRegistryDay(String registryDay) {
         this.registryDay = registryDay;
+    }
+
+
+
+    public static void createProduct() {
+        Product p = new Product();
+        Scanner sc = new Scanner(System.in);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy' at 'HH:mm");
+        String d = sdf.format(new Date());
+
+        System.out.println("Nom del producte:");
+        p.setName(sc.nextLine());
+        System.out.println("Tipus de producte:");
+        p.setType(sc.nextLine());
+        System.out.println("Fabricant:");
+        p.setManufacturer(sc.nextLine());
+        System.out.println("Preu unitari:");
+        p.setPrice(sc.nextDouble());
+        System.out.println("Quantitat:");
+        p.setQuantity(sc.nextInt());
+        p.setRegistryDay(d);
+
+        FileCalls.insertRegistry(p,true);
+    }
+
+    public static void buyProduct(boolean sell) {
+        int quantity = 0;
+        Product p = null;
+
+        Scanner sc = new Scanner(System.in);
+
+        do {
+            p = FileCalls.searchProduct();
+        } while (p == null);
+
+        if(sell){
+            System.out.println("How many " + p.getName() + " do you want to buy dear custemer?");
+            quantity = sc.nextInt();
+            p.setQuantity(p.getQuantity() - quantity);
+        }else{
+            System.out.println("How many " + p.getName() + " do you want? There are actually " + p.getQuantity() + " in stock.");
+            quantity = sc.nextInt();
+            p.setQuantity(p.getQuantity() + quantity);
+        }
+
+        quantity = sc.nextInt();
+
+        p.setQuantity(p.getQuantity() + quantity);
+
+        FileCalls.updateRegistry(p);
     }
 }
