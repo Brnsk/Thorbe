@@ -11,13 +11,19 @@ public class App {
 
         do {
             System.out.println("========= ThorbeEletrics =========");
-            System.out.println("1. Registrar producte.");
-            System.out.println("2. Listar tots els productes.");
-            System.out.println("3. Comprar producte.");
-            System.out.println("4. Vendre producte.");
-            System.out.println("5. Cercar producte.");
-            System.out.println("0. Sortir.");
-            resposta = sc.nextInt();
+            System.out.println("1. Register product.             #");
+            System.out.println("2. List all products.            #");
+            System.out.println("3. Buy products for the company. #");
+            System.out.println("4. Sell product to a customer.   #");
+            System.out.println("5. Find a product.               #");
+            System.out.println("0. Exit.                         #");
+            System.out.println("==================================");
+            try{
+                resposta = sc.nextInt();
+            }catch(Exception e){
+                System.out.println("Please, write a number from 0 to 5. Thank you.");
+                sc.next();
+            }
         } while (resposta < 0 || resposta > 5);
 
         switch (resposta) {
@@ -27,11 +33,11 @@ public class App {
                 break;
             case 2: FileCalls.listProducts();
                 break;
-            case 3: Product.buyProduct(false);
+            case 3: Product.buyProduct(false, "");
                 break;
-            case 4: Product.buyProduct(true);
+            case 4: Product.buyProduct(true, "");
                 break;
-            case 5: FileCalls.searchProduct();
+            case 5: FileCalls.searchProduct("");
                 break;
         }
 
@@ -40,6 +46,19 @@ public class App {
 
     public static void main(String[] args) {
         boolean exit = false;
+
+        System.out.println("                 ---------\t---------\t-----\t------|    \t --------");
+        System.out.println("                 ---   ---\t||     ||\t|   |\t|     |    \t|--------");
+        System.out.println("                    | |   \t||     ||\t|----\t|---------|\t| ====   ");
+        System.out.println("                    | |   \t||     ||\t|  \\ \t|         |\t|---------");
+        System.out.println("                    | |   \t---------\t|   \\\t|----------\t ---------");
+        System.out.println();
+        System.out.println(" -------- \t||      \t -------- \t---------\t---------\t-----\t||\t---------\t  ------");
+        System.out.println("|-------- \t||      \t|-------- \t---------\t---   ---\t|   |\t||\t---------\t  -------");
+        System.out.println("| ====    \t||      \t| ====    \t||       \t   | |   \t|----\t||\t||       \t   \\\\");
+        System.out.println("|---------\t||      \t|---------\t---------\t   | |   \t|  \\ \t||\t---------\t-------");
+        System.out.println(" ---------\t========\t ---------\t---------\t   | |   \t|   \\\t||\t---------\t-------");
+        System.out.println();
 
         while (!exit) {
             exit = printMenu();

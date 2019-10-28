@@ -21,7 +21,7 @@ public class FileCalls {
             Writer wr = new FileWriter(FileCalls.file, true);
             StringBuilder line = new StringBuilder();
 
-            if(lineSep){
+            if (lineSep) {
                 line.append(System.lineSeparator());
             }
             line.append(p.getName());
@@ -46,16 +46,18 @@ public class FileCalls {
 
     public static void updateRegistry(Product p) {
         deleteRegistry(p.getName());
-        insertRegistry(p,false);
+        insertRegistry(p, false);
     }
 
     public static void deleteRegistry(String name) {
         try {
-            Scanner sc = new Scanner(FileCalls.file);
+            Scanner file = new Scanner(FileCalls.file);
             List<String> copy = new ArrayList<String>();
-            while (sc.hasNext()) {
-                copy.add(sc.nextLine());
+            
+            while (file.hasNext()) {
+                copy.add(file.nextLine());
             }
+            file.close();
 
             Writer wr = new FileWriter(FileCalls.file);
 
@@ -76,61 +78,63 @@ public class FileCalls {
     public static void listProducts() {
         try {
             StringBuilder sb = new StringBuilder();
-            Scanner sc = new Scanner(FileCalls.file);
-            List<String> product = new ArrayList<String>();
-            sc.nextLine();
-            sb = new StringBuilder();
+            Scanner file = new Scanner(FileCalls.file);
+            String line = "";
+            file.nextLine();
 
-            while (sc.hasNext()) {
-                product.clear();
-                product.add(sc.nextLine());
+            while (file.hasNext()) {
+                line = file.nextLine();
                 sb.append("=================");
                 sb.append(System.lineSeparator());
                 sb.append("Product: ");
-                sb.append(product.get(0).split(",")[0]);
+                sb.append(line.split(",")[0]);
                 sb.append(System.lineSeparator());
                 sb.append("Unity Price: ");
-                sb.append(product.get(0).split(",")[3]);
+                sb.append(line.split(",")[3]);
                 sb.append(System.lineSeparator());
                 sb.append("Quantity: ");
-                sb.append(product.get(0).split(",")[4]);
+                sb.append(line.split(",")[4]);
                 sb.append(System.lineSeparator());
                 sb.append("=================");
                 sb.append(System.lineSeparator());
             }
             System.out.println(sb);
+            file.close();
+
+            FileCalls.quantityRemaining();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static Product searchProduct() {
+    public static Product searchProduct(String name) {
+        Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
+        String line = "";
+        Product product = null;
+        String date = "";
         boolean found = false;
-        Scanner p = new Scanner(System.in);
-        System.out.println("Which product are you looking for?");
-        String name = p.nextLine();
+
+        if(name.equals("")){
+            System.out.println("Which product are you looking for?");
+            FileCalls.listProducts();
+            name = sc.nextLine();
+        }
 
         try {
-            StringBuilder sb = new StringBuilder();
-            Scanner sc = new Scanner(FileCalls.file);
-            String line = "";
-            Product product = null;
+            Scanner file = new Scanner(FileCalls.file);
 
-            sc.nextLine();
+            file.nextLine();
 
-            while (sc.hasNext() && !found) {
-                line = sc.nextLine();
-                String date = "";
+            while (file.hasNext() && !found) {
+                line = file.nextLine();
 
-                date = line.split(",")[5];
-                date = date.replace(";", "");
-
-                product = new Product(line.split(",")[0], line.split(",")[1], line.split(",")[2],
-                        Double.parseDouble(line.split(",")[3]), Integer.parseInt(line.split(",")[4]), date);
-
-
-                if (product.getName().toLowerCase().equals(name.toLowerCase())) {
+                if (line.split(",")[0].toLowerCase().equals(name.toLowerCase())) {
                     found = true;
+                    date = line.split(",")[5];
+                    date = date.replace(";", "");
+                    product = new Product(line.split(",")[0], line.split(",")[1], line.split(",")[2],
+                            Double.parseDouble(line.split(",")[3]), Integer.parseInt(line.split(",")[4]), date);
 
                     sb.append("=================");
                     sb.append(System.lineSeparator());
@@ -150,11 +154,11 @@ public class FileCalls {
             }
 
             if (!found) {
-                System.out.println("Sorry, product not found");
-                product = null;
+                System.out.println("Product not found");
             }
-            return product;
 
+            file.close();
+            return product;
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
             return null;
@@ -164,105 +168,101 @@ public class FileCalls {
 
     public static void quantityRemaining() {
         try {
-            Scanner sc = new Scanner(FileCalls.file);
-            Scanner user = new Scanner(System.in);
-            boolean out = true;
-
+            Scanner file = new Scanner(FileCalls.file);
+            Scanner sc = new Scanner(System.in);
             List<String> copy = new ArrayList<String>();
-            while (sc.hasNext()) {
-                copy.add(sc.nextLine());
+            boolean out = false;
+
+            while (file.hasNext()) {
+                copy.add(file.nextLine());
             }
             copy.remove(0);
+
             for (String line : copy) {
-                if (Integer.parseInt(line.split(",")[4]) <= 5 && Integer.parseInt(line.split(",")[4]) > 0) {
-                    StringBuilder aviso = new StringBuilder();
-                    aviso.append("The product ");
-                    aviso.append(line.split(",")[0]);
-                    aviso.append(" is running out of stock. Only ");
-                    aviso.append(line.split(",")[4]);
-                    aviso.append(" left.");
+                if (Integer.parseInt(line.split(",")[4]) <= 5 && Integer.parseInt(line.split(",")[4]) >= 0) {
+                    StringBuilder warning = new StringBuilder();
+                    warning.append("The product ");
+                    warning.append(line.split(",")[0]);
+                    warning.append(" is running out of stock. Only ");
+                    warning.append(line.split(",")[4]);
+                    warning.append(" left.");
                     out = true;
 
-                    System.out.println(aviso);
-                } else if (Integer.parseInt(line.split(",")[4]) <= 0) {
-                    StringBuilder aviso = new StringBuilder();
-                    aviso.append("There is no more ");
-                    aviso.append(line.split(",")[0]);
-                    aviso.append(" left.");
-                    aviso.append(System.lineSeparator());
-                    System.out.println(aviso);
-                    out = true;
+                    System.out.println(warning);
                 }
+
                 if (out) {
-                    String comprar;
+                    String buy;
                     do {
-                        System.out.println("Do you want to buy more? (S o N) ");
-                        comprar = user.nextLine();
-                    } while (!comprar.toUpperCase().equals("S") && comprar.toUpperCase().contentEquals("N"));
-                    if (comprar.toUpperCase().equals("S")) {
-                        System.out.println("buying more " + line.split(",")[0]);
+                        System.out.println("Do you want to buy more? (Yes / No)");
+                        buy = sc.nextLine();
+                    } while (!buy.toUpperCase().equals("YES") && !buy.toUpperCase().contentEquals("NO"));
+
+                    if (buy.toUpperCase().equals("YES")) {
+                        Product.buyProduct(false, line.split(",")[0]);
+                        System.out.println("Buying more " + line.split(",")[0]);
                     }
                 }
                 out = false;
-                sc.close();
             }
 
+            file.close();
         } catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public static void createBill (List<Product> products, String clientName, List<Integer> quantity ) {
-    	 try{
-    		 Date day = new Date();
-    		 DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy'at'HH-mm'h-'");
-    		 
-    		 File f = new File("./bills/"+dateFormat.format(day)+clientName+".dat");
+    public static void createBill(List<Product> products, String clientName, List<Integer> quantity) {
+        try {
+            Date day = new Date();
+            DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy'at'HH-mm'h-'");
 
-             BufferedWriter wr = new BufferedWriter(new FileWriter(f));
-             StringBuilder line = new StringBuilder();
-             int i = 0;
-             double pfinal = 0;
+            File f = new File("./bills/" + dateFormat.format(day) + clientName + ".dat");
 
-             line.append("===========ThorbeElectrics===========");
-             line.append(System.lineSeparator());
-             line.append(System.lineSeparator());
-             line.append("  <<<<<CLIENTE>>>>>");
-             line.append(System.lineSeparator());
-             line.append("     · Nombre: ");
-             line.append(clientName);
-             line.append(System.lineSeparator());
-             line.append(System.lineSeparator());
-             line.append("  <<<<<PRODUCTOS>>>>>");
-             line.append(System.lineSeparator());
+            BufferedWriter wr = new BufferedWriter(new FileWriter(f));
+            StringBuilder line = new StringBuilder();
+            int i = 0;
+            double pfinal = 0;
 
-             for (Product p : products) {
-            	 line.append("    · Producto: ");
-            	 line.append(p.getName());
-            	 line.append(System.lineSeparator());
-            	 line.append("    · Cantidad: ");
-            	 line.append(quantity.get(i));
-            	 line.append(System.lineSeparator());
-            	 line.append("    · Precio /u: ");
-            	 line.append(p.getPrice());			
-            	 line.append(System.lineSeparator());
-            	 line.append("    · Total: ");
-            	 line.append(p.getPrice()* quantity.get(i));			
-            	 line.append(System.lineSeparator());
-            	 line.append("     ------------------");			
-            	 line.append(System.lineSeparator());
-            	 pfinal = pfinal + (p.getPrice()* quantity.get(i));
-            	 i += 1;
-			}
-             line.append(System.lineSeparator());
-        	 line.append(">>>>>>>>PRECIO FINAL :");		
-        	 line.append(pfinal);	
-        	 line.append(System.lineSeparator());
+            line.append("===========ThorbeElectrics===========");
+            line.append(System.lineSeparator());
+            line.append(System.lineSeparator());
+            line.append("  <<<<<CLIENTE>>>>>");
+            line.append(System.lineSeparator());
+            line.append("     · Nombre: ");
+            line.append(clientName);
+            line.append(System.lineSeparator());
+            line.append(System.lineSeparator());
+            line.append("  <<<<<PRODUCTOS>>>>>");
+            line.append(System.lineSeparator());
 
-             wr.append(line);
-             wr.close();
-         }catch(IOException e){
-             System.out.println(e.getMessage());
-         }
+            for (Product p : products) {
+                line.append("    · Producto: ");
+                line.append(p.getName());
+                line.append(System.lineSeparator());
+                line.append("    · Cantidad: ");
+                line.append(quantity.get(i));
+                line.append(System.lineSeparator());
+                line.append("    · Precio /u: ");
+                line.append(p.getPrice());
+                line.append(System.lineSeparator());
+                line.append("    · Total: ");
+                line.append(p.getPrice() * quantity.get(i));
+                line.append(System.lineSeparator());
+                line.append("     ------------------");
+                line.append(System.lineSeparator());
+                pfinal = pfinal + (p.getPrice() * quantity.get(i));
+                i += 1;
+            }
+            line.append(System.lineSeparator());
+            line.append(">>>>>>>>PRECIO FINAL :");
+            line.append(pfinal);
+            line.append(System.lineSeparator());
+
+            wr.append(line);
+            wr.close();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -1,0 +1,23 @@
+===========ThorbeElectrics===========
+
+  <<<<<CLIENTE>>>>>
+     · Nombre: nant
+
+  <<<<<PRODUCTOS>>>>>
+    · Producto: Lemon
+    · Cantidad: 10
+    · Precio /u: 12.23
+    · Total: 122.30000000000001
+     ------------------
+    · Producto: Lemon2
+    · Cantidad: 3
+    · Precio /u: 21.5
+    · Total: 64.5
+     ------------------
+    · Producto: Lemon
+    · Cantidad: 9
+    · Precio /u: 12.23
+    · Total: 110.07000000000001
+     ------------------
+
+>>>>>>>>PRECIO FINAL :296.87

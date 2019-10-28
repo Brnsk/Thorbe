@@ -1,7 +1,10 @@
 package mainPackage;
 
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Product {
@@ -79,52 +82,100 @@ public class Product {
     }
 
 
-
     public static void createProduct() {
         Product p = new Product();
         Scanner sc = new Scanner(System.in);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy' at 'HH:mm");
         String d = sdf.format(new Date());
+        String name = "";
 
-        System.out.println("Nom del producte:");
-        p.setName(sc.nextLine());
-        System.out.println("Tipus de producte:");
-        p.setType(sc.nextLine());
-        System.out.println("Fabricant:");
-        p.setManufacturer(sc.nextLine());
-        System.out.println("Preu unitari:");
-        p.setPrice(sc.nextDouble());
-        System.out.println("Quantitat:");
-        p.setQuantity(sc.nextInt());
-        p.setRegistryDay(d);
+        try {
+            Scanner file = new Scanner(FileCalls.file);
 
-        FileCalls.insertRegistry(p,true);
+            System.out.println("Product name:");
+            name = sc.nextLine();
+            System.out.println("Checking if the product already exists...");
+
+            if (FileCalls.searchProduct(name) == null) {
+                p.setName(name);
+                System.out.println("Type of product:");
+                p.setType(sc.nextLine());
+                System.out.println("Manufacturer");
+                p.setManufacturer(sc.nextLine());
+                System.out.println("Price /u:");
+                p.setPrice(sc.nextDouble());
+                System.out.println("Quantity:");
+                p.setQuantity(sc.nextInt());
+                p.setRegistryDay(d);
+                FileCalls.insertRegistry(p, true);
+            } else {
+                System.out.println("The product already exists.");
+            }
+
+            file.close();
+            FileCalls.quantityRemaining();
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (Exception e) {
+            System.out.println("An error occurred, please try again.");
+            sc.next();
+        }
     }
 
-    public static void buyProduct(boolean sell) {
+    public static void buyProduct(boolean sell, String name) {
         int quantity = 0;
         Product p = null;
-
+        String customer = "";
+        List<Product> pList = new ArrayList<Product>();
+        List<Integer> qList = new ArrayList<Integer>();
+        String more = "";
         Scanner sc = new Scanner(System.in);
+        int i = 0;
 
-        do {
-            p = FileCalls.searchProduct();
-        } while (p == null);
+        if (sell) {
+            if (i == 0) {
+                System.out.println("What is your name dear customer?");
+                customer = sc.nextLine();
+                i++;
+            }
+            do {
+                do {
+                    p = FileCalls.searchProduct("");
+                } while (p == null);
 
-        if(sell){
-            System.out.println("How many " + p.getName() + " do you want to buy dear custemer?");
-            quantity = sc.nextInt();
-            p.setQuantity(p.getQuantity() - quantity);
-        }else{
+                System.out.println("How many " + p.getName() + " do you want to buy " + customer + "?");
+                quantity = sc.nextInt();
+
+                if (p.getQuantity() > quantity) {
+                    p.setQuantity(p.getQuantity() - quantity);
+                    pList.add(p);
+                    qList.add(quantity);
+                    FileCalls.updateRegistry(p);
+
+                    do {
+                        System.out.println("Do you want anything else (Yes / No)?");
+                        sc.nextLine();
+                        more = sc.nextLine();
+                    } while (!more.toUpperCase().equals("YES") && !more.toUpperCase().contentEquals("NO"));
+                } else {
+                    System.out.println("Sorry, we only have " + p.getQuantity() + " " + p.getName());
+                }
+            } while (more.toLowerCase().equals("yes"));
+
+            FileCalls.createBill(pList, customer, qList);
+        } else {
+            do {
+                if(name.equals("")){
+                    p = FileCalls.searchProduct("");
+                }else{
+                    p = FileCalls.searchProduct(name);
+                }
+            } while (p == null);
             System.out.println("How many " + p.getName() + " do you want? There are actually " + p.getQuantity() + " in stock.");
             quantity = sc.nextInt();
             p.setQuantity(p.getQuantity() + quantity);
         }
 
-        quantity = sc.nextInt();
-
-        p.setQuantity(p.getQuantity() + quantity);
-
-        FileCalls.updateRegistry(p);
+        FileCalls.quantityRemaining();
     }
 }
