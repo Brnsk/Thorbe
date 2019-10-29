@@ -2,9 +2,11 @@ package mainPackage;
 
 import java.util.Scanner;
 
+import com.itextpdf.text.DocumentException;
+
 public class App {
 
-    private static boolean printMenu() {
+    private static boolean printMenu() throws DocumentException {
         boolean exit = false;
         Scanner sc = new Scanner(System.in);
         int resposta = -1;
@@ -44,7 +46,7 @@ public class App {
         return exit;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws DocumentException {
         boolean exit = false;
 
         System.out.println("                 ---------\t---------\t-----\t------|    \t --------");

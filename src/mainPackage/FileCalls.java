@@ -1,17 +1,23 @@
 package mainPackage;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class FileCalls {
     final static File file = new File("./stock.dat");
@@ -75,7 +81,7 @@ public class FileCalls {
         }
     }
 
-    public static void listProducts() {
+    public static void listProducts() throws DocumentException {
         try {
             StringBuilder sb = new StringBuilder();
             Scanner file = new Scanner(FileCalls.file);
@@ -107,7 +113,7 @@ public class FileCalls {
         }
     }
 
-    public static Product searchProduct(String name) {
+    public static Product searchProduct(String name) throws DocumentException {
         Scanner sc = new Scanner(System.in);
         StringBuilder sb = new StringBuilder();
         String line = "";
@@ -166,7 +172,7 @@ public class FileCalls {
 
     }
 
-    public static void quantityRemaining() {
+    public static void quantityRemaining() throws DocumentException {
         try {
             Scanner file = new Scanner(FileCalls.file);
             Scanner sc = new Scanner(System.in);
@@ -212,14 +218,24 @@ public class FileCalls {
         }
     }
 
-    public static void createBill(List<Product> products, String clientName, List<Integer> quantity) {
+    public static void createBill(List<Product> products, String clientName, List<Integer> quantity) throws DocumentException {
         try {
+        	Document doc = new Document();
             Date day = new Date();
             DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyy'at'HH-mm'h-'");
 
-            File f = new File("./bills/" + dateFormat.format(day) + clientName + ".dat");
+            File f = new File("./bills/" + dateFormat.format(day) + clientName + ".pdf");
+        	
+        	FileOutputStream fos = new FileOutputStream(f);
+        	PdfWriter.getInstance(doc, fos).setInitialLeading(20);
+        	doc.open();
+        	
 
-            BufferedWriter wr = new BufferedWriter(new FileWriter(f));
+            Image foto = Image.getInstance("C:\\Users\\PFlorit\\git\\Thorbe\\src\\mainPackage\\logo.png");
+        	foto.scaleToFit(100, 100);
+        	foto.setAlignment(Chunk.ALIGN_MIDDLE);
+        	doc.add(foto);
+        	
             StringBuilder line = new StringBuilder();
             int i = 0;
             double pfinal = 0;
@@ -229,7 +245,7 @@ public class FileCalls {
             line.append(System.lineSeparator());
             line.append("  <<<<<CLIENTE>>>>>");
             line.append(System.lineSeparator());
-            line.append("     Â· Nombre: ");
+            line.append("     · Nombre: ");
             line.append(clientName);
             line.append(System.lineSeparator());
             line.append(System.lineSeparator());
@@ -237,16 +253,16 @@ public class FileCalls {
             line.append(System.lineSeparator());
 
             for (Product p : products) {
-                line.append("    Â· Producto: ");
+                line.append("    · Producto: ");
                 line.append(p.getName());
                 line.append(System.lineSeparator());
-                line.append("    Â· Cantidad: ");
+                line.append("    · Cantidad: ");
                 line.append(quantity.get(i));
                 line.append(System.lineSeparator());
-                line.append("    Â· Precio /u: ");
+                line.append("    · Precio /u: ");
                 line.append(p.getPrice());
                 line.append(System.lineSeparator());
-                line.append("    Â· Total: ");
+                line.append("    · Total: ");
                 line.append(p.getPrice() * quantity.get(i));
                 line.append(System.lineSeparator());
                 line.append("     ------------------");
@@ -255,12 +271,12 @@ public class FileCalls {
                 i += 1;
             }
             line.append(System.lineSeparator());
-            line.append(">>>>>>>>PRECIO FINAL :");
+            line.append(">>>>>>>>PRECIO FINAL: ");
             line.append(pfinal);
             line.append(System.lineSeparator());
 
-            wr.append(line);
-            wr.close();
+            doc.add(new Paragraph(line.toString()));
+            doc.close();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

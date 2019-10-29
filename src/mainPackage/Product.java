@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import com.itextpdf.text.DocumentException;
+
 public class Product {
     private String name;
     private String type;
@@ -122,7 +124,7 @@ public class Product {
         }
     }
 
-    public static void buyProduct(boolean sell, String name) {
+    public static void buyProduct(boolean sell, String name) throws DocumentException {
         int quantity = 0;
         Product p = null;
         String customer = "";
